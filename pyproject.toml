@@ -5,7 +5,7 @@ description = "short description of project."
 readme = "docs/README.md"
 requires-python = ">=3.9"
 authors = [{ name = "Riksarkivet" }]
-license = "MIT"
+license = { text = "MIT" }
 classifiers = [
     "Intended Audience :: Science/Research",
     "Development Status :: 1 - Planning",
