@@ -69,3 +69,6 @@ class ModelFactory:
             return model_creators[model_scope](config_files, model_files, device=device)
         logging.error(f"Unknown model scope: {model_scope}")
         return None
+
+
+# TODO  read config and update the cfg.dict path (i.e dump a new file and init the textrecinferencer based on the new file.)
