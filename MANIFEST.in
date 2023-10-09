@@ -1,0 +1,2 @@
+include src/htr_svea/assets/*.txt
+include ./README.md
