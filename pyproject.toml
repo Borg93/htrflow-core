@@ -44,7 +44,7 @@ changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
 
 [project.optional-dependencies]
 test = [
-    "pytest < 6.0.0",
+    "pytest",
     "pytest-cov[all]",
     "ruff",
     "black",
