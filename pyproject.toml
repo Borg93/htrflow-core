@@ -32,7 +32,7 @@ dependencies = [
     "transformers",
     "datasets",
     "requests",
-
+    "accelerate",
 ]
 
 

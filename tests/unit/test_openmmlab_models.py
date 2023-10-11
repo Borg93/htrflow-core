@@ -2,7 +2,7 @@ import pytest
 from mmdet.apis import DetInferencer
 from mmocr.apis import TextRecInferencer
 
-from htr_svea.openmmlab_models import OpenmmlabModel
+from htr_svea.models.openmmlab_models import OpenmmlabModel
 
 
 @pytest.mark.parametrize(

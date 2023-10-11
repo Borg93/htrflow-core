@@ -3,7 +3,7 @@ from collections import OrderedDict
 import torch
 import yaml
 
-from htr_svea.openmmlab_models import OpenmmlabModel
+from htr_svea.models.openmmlab_models import OpenmmlabModel
 
 
 class MultiModelManager:

@@ -9,6 +9,8 @@ from mmdet.apis import DetInferencer
 from mmengine.config import Config
 from mmocr.apis import TextRecInferencer
 
+from htr_svea.models.utils import check_device_to_use
+
 
 class OpenmmlabsFramework(Enum):
     MMDET = "mmdet"
@@ -23,7 +25,7 @@ class OpenmmlabModel:
 
     @classmethod
     def from_pretrained(cls, model_id: str, cache_dir: str = None, device: str = None):
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        device = check_device_to_use(device)
 
         model_file, config_file = cls._download_config_and_model_file(model_id, cache_dir)
 
@@ -33,6 +35,14 @@ class OpenmmlabModel:
             model = OpenModelFactory.create_openmmlab_model(model_scope, config_file, model_file, device)
             return model
         return None
+
+    @classmethod
+    def _check_device_to_use(cls, device):
+        if device is None:
+            device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        else:
+            device = torch.device(device if torch.cuda.is_available() else "cpu")
+        return device
 
     @classmethod
     def _checking_model_scope(cls, model_id, cache_dir, config_file):
