@@ -3,7 +3,7 @@ name = "htr_svea"
 version = "0.0.1.dev0"
 description = "short description of project."
 readme = "docs/README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 authors = [{ name = "Riksarkivet" }]
 license = { text = "MIT" }
 classifiers = [
