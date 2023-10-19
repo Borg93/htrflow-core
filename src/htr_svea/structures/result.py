@@ -21,88 +21,9 @@ class Result():
         self.nested_results = nested_results
         self.parent_result = parent_result
         self.texts = texts
-
-    """
-    def __init__(self, 
-                 img_shape: tuple, 
-                 labels: Tensor = None, 
-                 scores: Tensor = None, 
-                 bboxes: Tensor = None, 
-                 masks: Tensor = None, 
-                 regions: List['Result'] = None, 
-                 polygons: list = None,
-                 texts: List['TextRecResult'] = None):
-        self.img_shape = img_shape
-        self.labels = labels
-        self.scores = scores
-        self.bboxes = bboxes
-        self.segmentation.masks = masks
-        self.polygons = polygons
-        self.texts = texts
-        self.regions = regions if regions is not None else []
-    """
-
-
-
-    
     
     def crop_regions_within_img(self, img):
-        pass
-
-
-    """
-    def remove_overlapping_masks(self, method="mask", containments_threshold=0.5):
-        # Convert masks to binary images
-        #masks = [mask.cpu().numpy() for mask in self.segmentation.masks]
-        #masks_binary = [(mask > 0).astype(np.uint8) for mask in masks]
-
-        # Compute bounding boxes and areas
-        #boxes = [cv2.boundingRect(mask) for mask in masks_binary]
-
-        # Compute pairwise containment
-        containments = torch.zeros((len(self.segmentation.masks), len(self.segmentation.masks)))
-
-        for i in range(len(self.segmentation.masks)):
-            #box_i = boxes[i]
-
-            for j in range(i + 1, len(self.segmentation.masks)):
-                #box_j = boxes[j]
-
-                if method == "mask":
-                    containment = self._calculate_containment_mask(self.segmentation.masks[i], self.segmentation.masks[j])
-                    containments[i, j] = containment
-                    containment = self._calculate_containment_mask(self.segmentation.masks[j], self.segmentation.masks[i])
-                    containments[j, i] = containment
-                #elif method == "bbox":
-                    #containment = self._calculate_containment_bbox(box_i, box_j)
-                    #containments[i, j] = containment
-                    #containment = self._calculate_containment_bbox(box_j, box_i)
-                    #containments[j, i] = containment
-
-        # Keep only the biggest masks for overlapping pairs
-        keep_mask = torch.ones(len(self.segmentation.masks), dtype=torch.bool)
-        for i in range(len(self.segmentation.masks)):
-            if not keep_mask[i]:
-                continue
-            if torch.any(containments[i] > containments_threshold):
-                contained_indices = torch.where(containments[i] > containments_threshold)[0]
-                for j in contained_indices:
-                    if torch.count_nonzero(self.segmentation.masks[i]) >= torch.count_nonzero(self.segmentation.masks[j]):
-                        keep_mask[j] = False
-                    else:
-                        keep_mask[i] = False
-    
-            
-    
-    def _calculate_containment_mask(self, mask_a, mask_b):
-        intersection = torch.logical_and(mask_a, mask_b).sum().float()
-        containment = intersection / mask_b.sum().float() if mask_b.sum() > 0 else 0
-        return containment
-
-    """
-
-    def align_masks_with_image(self):
-        #possibly move to MMDetInferencer instead, particular bug(?) in mmdetection
+        #continue with this one
         pass
 
     def order_instances(self):
