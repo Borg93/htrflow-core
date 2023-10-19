@@ -89,7 +89,7 @@ class SegResult():
             mask = padded_mask
 
             masks.append(mask)
-
+            
         # Stack all masks into a single tensor
         self.masks = torch.stack(masks)
     
