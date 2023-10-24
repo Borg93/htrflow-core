@@ -1,6 +1,8 @@
 from htr_svea.models.openmmlab_models import OpenmmlabModel
 from htr_svea.inferencer.mmdet_inferencer import MMDetInferencer
 from htr_svea.utils.helper import timing_decorator
+from htr_svea.postprocess.postprocess_segmentation import PostProcessSegmentation
+
 import mmcv
 
 from glob import glob
@@ -28,9 +30,14 @@ if __name__ == "__main__":
     
     result = inferencer.predict(imgs_numpy, batch_size=8)
 
+    imgs_region_numpy = list()
+
     for res, img in zip(result, imgs_numpy):
         res.segmentation.remove_overlapping_masks()
         res.segmentation.align_masks_with_image(img)
+        imgs_region_numpy.extend(PostProcessSegmentation.crop_imgs_from_result_optim(res, img))
+
+    print(len(imgs_region_numpy))
     
     #print(result[-1].img_shape)
     #print(result['predictions'][0].pred_instances.metadata_fields)
