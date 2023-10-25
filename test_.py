@@ -15,8 +15,10 @@ def predict_batch(inferencer, images):
 
 if __name__ == "__main__":
     region_model = OpenmmlabModel.from_pretrained("Riksarkivet/rtmdet_regions", cache_dir="./config")
-
+    
     print(region_model)
+
+    lines_model = OpenmmlabModel.from_pretrained("Riksarkivet/rtmdet_lines", cache_dir="./config")
 
     #try with region_inferencer instead (type=region till mmdetinferencer)
 
@@ -28,14 +30,16 @@ if __name__ == "__main__":
     for img in imgs[0:8]:
         imgs_numpy.append(mmcv.imread(img))
     
-    result = inferencer.predict(imgs_numpy, batch_size=8)
+    result_regions = inferencer.predict(imgs_numpy, batch_size=8)
 
     imgs_region_numpy = list()
 
-    for res, img in zip(result, imgs_numpy):
+    for res, img in zip(result_regions, imgs_numpy):
         res.segmentation.remove_overlapping_masks()
         res.segmentation.align_masks_with_image(img)
-        imgs_region_numpy.extend(PostProcessSegmentation.crop_imgs_from_result_optim(res, img))
+        imgs_region_numpy.append(PostProcessSegmentation.crop_imgs_from_result_optim(res, img))
+
+    inferencer_lines = MMDetInferencer(region_model=lines_model)
 
     print(len(imgs_region_numpy))
     
