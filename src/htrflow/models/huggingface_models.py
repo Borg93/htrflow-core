@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-from htr_svea.models.utils import check_device_to_use
+from htrflow.models.utils import check_device_to_use
 
 
 class HuggingFaceModel:

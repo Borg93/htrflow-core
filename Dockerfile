@@ -6,7 +6,7 @@ COPY . .
 
 RUN pip install -e .
 
-CMD [ "python3", "./src/htr_svea/main.py"]
+CMD [ "python3", "./src/htrflow/main.py"]
 
 # Commands:
 # Build a docker image:

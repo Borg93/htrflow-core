@@ -1,4 +1,4 @@
-from htr_svea.inferencer.base_inferencer import BaseInferencer
+from htrflow.inferencer.base_inferencer import BaseInferencer
 
 
 class HuggingFaceInferencer(BaseInferencer):

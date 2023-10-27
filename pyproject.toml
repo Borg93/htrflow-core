@@ -1,5 +1,5 @@
 [project]
-name = "htr_svea"
+name = "htrflow"
 version = "0.0.1.dev0"
 description = "short description of project."
 readme = "docs/README.md"
@@ -37,7 +37,7 @@ dependencies = [
 
 
 [project.urls]
-homepage = "https://Riksarkivet/htr_svea"
+homepage = "https://Riksarkivet/htrflow"
 documentation = "https://readthedocs.org"
 repository = "https://github.com"
 changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
@@ -85,7 +85,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=htr_svea"
+addopts = "-v --cov=htrflow"
 testpaths = ["tests/unit"]
 
 [tool.mypy]
@@ -116,4 +116,4 @@ line-length = 119
 
 [tool.ruff.isort]
 lines-after-imports = 2
-known-first-party = ["htr_svea"]
+known-first-party = ["htrflow"]
