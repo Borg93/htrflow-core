@@ -92,6 +92,9 @@ class SegResult():
             
         # Stack all masks into a single tensor
         self.masks = torch.stack(masks)
+
+    def order_masks(self):
+        pass
     
     """
     def align_masks_with_image(self, img):
