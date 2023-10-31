@@ -41,7 +41,7 @@ class Result():
 
         # Calculate the threshold distance
         threshold_distance = self._calculate_threshold_distance(bounding_boxes, line_spacing_factor)
-        print(threshold_distance)
+
         # Sort the indices based on vertical center points and horizontal positions
         indices = list(range(len(bounding_boxes)))
         indices.sort(

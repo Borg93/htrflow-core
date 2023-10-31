@@ -10,41 +10,6 @@ class PostProcessSegmentation:
     def __init__(self):
         pass
 
-    @staticmethod
-    @timing_decorator
-    def crop_imgs_from_result(result: Result, img):
-        cropped_imgs = []
-
-        masks = result.segmentation.masks.cpu().numpy().astype(np.uint8)
-        # try with the bounding box function instead and compare with optim
-        for j, mask in enumerate(masks):
-            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-            largest_contour = max(contours, key=cv2.contourArea)
-
-            # epsilon = 0.003 * cv2.arcLength(largest_contour, True)
-            # approx_poly = cv2.approxPolyDP(largest_contour, epsilon, True)
-            # approx_poly = np.squeeze(approx_poly)
-            # approx_poly = approx_poly.tolist()
-            # polygons.append(approx_poly)
-
-            x, y, w, h = cv2.boundingRect(largest_contour)
-
-            # Crop masked region and put on white background
-            masked_region = img[y : y + h, x : x + w]
-            white_background = np.ones_like(masked_region)
-            white_background.fill(255)
-
-            mask_roi = mask[y : y + h, x : x + w]
-
-            masked_region_on_white = cv2.bitwise_and(white_background, masked_region, mask=mask_roi)
-
-            cv2.bitwise_not(white_background, white_background, mask=mask_roi)
-            res = white_background + masked_region_on_white
-
-            cropped_imgs.append(res)
-
-        return cropped_imgs
-
     def get_bounding_box(mask):
         rows = torch.any(mask, dim=1)
         cols = torch.any(mask, dim=0)
@@ -89,3 +54,16 @@ class PostProcessSegmentation:
             cropped_imgs.append(masked_region_on_white_np)
 
         return cropped_imgs
+    
+    def combine_region_line_res(result_full, result_regions):
+        ind = 0
+
+        for res in result_full: 
+            res.nested_results = list()   
+            for i in range(ind, ind + len(res.segmentation.masks)):
+                #result_lines.parent_result = res
+                res.nested_results.append(result_regions[i])
+            
+            ind += len(res.segmentation.masks)
+            
+        

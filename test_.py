@@ -7,6 +7,7 @@ from htrflow.inferencer.mmdet_inferencer import MMDetInferencer
 from htrflow.models.openmmlab_models import OpenmmlabModel
 from htrflow.postprocess.postprocess_segmentation import PostProcessSegmentation
 from htrflow.utils.helper import timing_decorator
+from htrflow.inferencer.mmocr_inferencer import MMOCRInferencer
 
 
 def post_process_seg(result, imgs, lines = False, regions = False):
@@ -28,30 +29,43 @@ def post_process_seg(result, imgs, lines = False, regions = False):
     return result, imgs_cropped
 
 @timing_decorator
-def predict_batch(inferencer_regions, inferencer_lines, imgs_numpy):
-    result_regions = inferencer_regions.predict(imgs_numpy, batch_size=8)
+def predict_batch(inferencer_regions, inferencer_lines, inferencer_htr, imgs_numpy):
+    result_full = inferencer_regions.predict(imgs_numpy, batch_size=8)
 
     imgs_region_numpy = list()
 
-    result_regions, imgs_region_numpy = post_process_seg(result_regions, imgs_numpy, regions=True)
+    result_full, imgs_region_numpy = post_process_seg(result_full, imgs_numpy, regions=True)
     flat_imgs_region_numpy = [item for sublist in imgs_region_numpy for item in sublist]
-    result_lines = inferencer_lines.predict(flat_imgs_region_numpy, batch_size=8)
-    result_lines, imgs_lines_numpy = post_process_seg(result_lines, flat_imgs_region_numpy, lines=True)
+    result_regions = inferencer_lines.predict(flat_imgs_region_numpy, batch_size=8)
+    result_regions, imgs_lines_numpy = post_process_seg(result_regions, flat_imgs_region_numpy, lines=True)
+
+    PostProcessSegmentation.combine_region_line_res(result_full, result_regions)
+    
+
+    flat_imgs_lines_numpy = [item for sublist in imgs_lines_numpy for item in sublist]
+
+    print(len(flat_imgs_lines_numpy))
+
+    result_lines = inferencer_htr.predict(flat_imgs_lines_numpy)
+
+    for res in result_lines:
+        print(res.text)
+
+    
 
     return True
 
 
 if __name__ == "__main__":
     region_model = OpenmmlabModel.from_pretrained("Riksarkivet/rtmdet_regions", cache_dir="./config")
-
-    print(region_model)
-
     lines_model = OpenmmlabModel.from_pretrained("Riksarkivet/rtmdet_lines", cache_dir="./config")
+    text_rec_model = OpenmmlabModel.from_pretrained("Riksarkivet/satrn_htr", cache_dir="./config")
 
     # try with region_inferencer instead (type=region till mmdetinferencer)
 
     inferencer_regions = MMDetInferencer(region_model=region_model)
     inferencer_lines = MMDetInferencer(region_model=lines_model)
+    inferencer_htr = MMOCRInferencer(text_rec_model=text_rec_model)
 
     imgs = glob(
         os.path.join(
@@ -67,7 +81,7 @@ if __name__ == "__main__":
     for img in imgs[0:8]:
         imgs_numpy.append(mmcv.imread(img))
     
-    predict_batch(inferencer_regions, inferencer_lines, imgs_numpy)
+    predict_batch(inferencer_regions, inferencer_lines, inferencer_htr, imgs_numpy)
 
     
     
