@@ -1,5 +1,6 @@
 import torch
 from torch import Tensor
+import pandas as pd
 
 from htrflow.utils.helper import timing_decorator
 
@@ -93,6 +94,10 @@ class SegResult():
 
         # Stack all masks into a single tensor
         self.masks = torch.stack(masks)
+
+    
+    
+    
 
     """
     def align_masks_with_image(self, img):

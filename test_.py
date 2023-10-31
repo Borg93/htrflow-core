@@ -19,27 +19,9 @@ def post_process_seg(result, imgs, lines = False, regions = False):
         
         indices = False
         if regions:
-            res = PostProcessSegmentation.order_regions_marginalia(res)
+            res.order_regions_marginalia(img)
         elif lines:
-            res = PostProcessSegmentation.order_lines(res)
-        
-        imgs_cropped.append(PostProcessSegmentation.crop_imgs_from_result_optim(res, img))
-
-    return result, imgs_cropped
-
-def post_process_seg(result, imgs, lines = False, regions = False):
-
-    imgs_cropped = list()
-    
-    for res, img in zip(result, imgs):
-        res.segmentation.remove_overlapping_masks()
-        res.segmentation.align_masks_with_image(img)
-        
-        indices = False
-        if regions:
-            res = PostProcessSegmentation.order_regions_marginalia(res)
-        elif lines:
-            res = PostProcessSegmentation.order_lines(res)
+            res.order_lines()
         
         imgs_cropped.append(PostProcessSegmentation.crop_imgs_from_result_optim(res, img))
 
