@@ -118,4 +118,3 @@ class SegResult():
         stacked_masks = torch.stack(masks)
         self.masks = stacked_masks
     """
-    """

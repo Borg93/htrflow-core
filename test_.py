@@ -3,10 +3,10 @@ from glob import glob
 
 import mmcv
 
-from htr_svea.inferencer.mmdet_inferencer import MMDetInferencer
-from htr_svea.models.openmmlab_models import OpenmmlabModel
-from htr_svea.postprocess.postprocess_segmentation import PostProcessSegmentation
-from htr_svea.utils.helper import timing_decorator
+from htrflow.inferencer.mmdet_inferencer import MMDetInferencer
+from htrflow.models.openmmlab_models import OpenmmlabModel
+from htrflow.postprocess.postprocess_segmentation import PostProcessSegmentation
+from htrflow.utils.helper import timing_decorator
 
 
 def post_process_seg(result, imgs, lines = False, regions = False):
