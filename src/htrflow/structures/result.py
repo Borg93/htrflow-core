@@ -1,11 +1,14 @@
-from torch import Tensor
+# from torch import Tensor
 from typing import List
-import numpy as np
-import cv2
-import torch
-from htr_svea.utils.helper import timing_decorator
-from htr_svea.structures.text_rec_result import TextRecResult
-from htr_svea.structures.seg_result import SegResult
+
+from htrflow.structures.seg_result import SegResult
+
+# import numpy as np
+# import cv2
+# import torch
+# from htrflow.utils.helper import timing_decorator
+from htrflow.structures.text_rec_result import TextRecResult
+
 
 class Result():
 
@@ -15,13 +18,13 @@ class Result():
                 nested_results: List['Result'] = None,
                 parent_result: 'Result' = None,
                 texts: List['TextRecResult'] = None):
-        
+
         self.img_shape = img_shape
         self.segmentation = segmentation
         self.nested_results = nested_results
         self.parent_result = parent_result
         self.texts = texts
-    
+
     def crop_regions_within_img(self, img):
         #continue with this one
         pass
@@ -154,6 +157,9 @@ class FilterSegMask:
         new_pred_instances.priors = result_pred.pred_instances.priors[id_list]
 
         new_filtered_result.pred_instances = new_pred_instances
+        return new_filtered_result
+
+"""
         return new_filtered_result
 
 """

@@ -1,11 +1,11 @@
 # Project information
-site_name: "htr_svea"
-site_url: https://Riksarkivet.github.io/htr_svea
+site_name: "htrflow"
+site_url: https://Riksarkivet.github.io/htrflow
 site_author: "Riksarkivet"
 site_description: >-
   Work in progress ...
-repo_name: Riksarkivet/htr_svea
-repo_url: https://Riksarkivet/htr_svea
+repo_name: Riksarkivet/htrflow
+repo_url: https://Riksarkivet/htrflow
 
 # Copyright
 copyright: Copyright &copy; 2023 Riksarkivet

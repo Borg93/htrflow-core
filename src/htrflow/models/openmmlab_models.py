@@ -9,7 +9,7 @@ from mmdet.apis import DetInferencer
 from mmengine.config import Config
 from mmocr.apis import TextRecInferencer
 
-from htr_svea.models.utils import check_device_to_use
+from htrflow.models.utils import check_device_to_use
 
 
 class OpenmmlabsFramework(Enum):

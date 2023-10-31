@@ -2,8 +2,8 @@ include .env
 
 VENV = venv
 PYTHON = $(VENV)/Scripts/python
-REPO_URL = https://Riksarkivet/htr_svea
-PACKAGE = htr_svea
+REPO_URL = https://Riksarkivet/htrflow
+PACKAGE = htrflow
 PIP = $(VENV)/Scripts/pip
 ACTIVATE_ENV = . venv/bin/activate
 
@@ -118,8 +118,8 @@ docs_install:
 
 ## new_env_conda - Create and setup new conda environment from environment.yml file
 new_env_conda:
-	@if conda env list | grep -q htr_svea; then \
-		conda env remove --name htr_svea; \
+	@if conda env list | grep -q htrflow; then \
+		conda env remove --name htrflow; \
 	fi
 	conda env create -f environment.yml
 

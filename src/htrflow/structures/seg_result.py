@@ -1,19 +1,20 @@
-from torch import Tensor
 import torch
+from torch import Tensor
 
-from htr_svea.utils.helper import timing_decorator
-import cv2
-import numpy as np
+from htrflow.utils.helper import timing_decorator
+
+# import cv2
+# import numpy as np
 
 class SegResult():
 
     def __init__(self,
-                 labels: Tensor = None, 
-                 scores: Tensor = None, 
-                 bboxes: Tensor = None, 
+                 labels: Tensor = None,
+                 scores: Tensor = None,
+                 bboxes: Tensor = None,
                  masks: Tensor = None,
                  polygons: list = None):
-        
+
         self.labels = labels
         self.scores = scores
         self.bboxes = bboxes
@@ -29,7 +30,7 @@ class SegResult():
         all_masks = self.masks
 
         # Calculate the area of each mask
-        areas = torch.sum(all_masks.view(len(self.masks), -1), dim=1)
+        torch.sum(all_masks.view(len(self.masks), -1), dim=1)
 
         # Calculate containments in batches
         batch_size = 100  # adjust this value based on your GPU memory
@@ -55,12 +56,12 @@ class SegResult():
         self.bboxes = self.bboxes[keep_mask]
         self.scores = self.scores[keep_mask]
 
-        
+
     def _calculate_containment_mask(self, masks_a, mask_b):
         intersections = torch.logical_and(masks_a, mask_b).sum(dim=(1,2)).float()
         containments = intersections / mask_b.sum().float() if mask_b.sum() > 0 else 0
         return containments
-    
+
     @timing_decorator
     def align_masks_with_image(self, img):
         # Create a tensor of all masks
@@ -89,13 +90,10 @@ class SegResult():
             mask = padded_mask
 
             masks.append(mask)
-            
+
         # Stack all masks into a single tensor
         self.masks = torch.stack(masks)
 
-    def order_masks(self):
-        pass
-    
     """
     def align_masks_with_image(self, img):
         masks = list()
@@ -119,4 +117,5 @@ class SegResult():
 
         stacked_masks = torch.stack(masks)
         self.masks = stacked_masks
+    """
     """

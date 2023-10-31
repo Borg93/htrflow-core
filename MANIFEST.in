@@ -1,2 +1,2 @@
-include src/htr_svea/assets/*.txt
+include src/htrflow/assets/*.txt
 include ./README.md
